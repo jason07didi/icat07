@@ -176,14 +176,6 @@ const datasets = [
     "link": "https://pan.baidu.com/s/1bgW1H446HFX1nRATwkmJJA?pwd=grsw"
   },
   {
-    "id": 23,
-    "title": "jason开发的人口密度下载器",
-    "category": "人口社会经济",
-    "format": "TIF / 栅格",
-    "description": "jason开发的人口密度下载器，可用于人口分布、社会经济统计、城市发展和区域比较研究。",
-    "link": "https://pan.baidu.com/s/1LIwZ3HgIJ_1Y0tkRRqYWkQ?pwd=grsw"
-  },
-  {
     "id": 24,
     "title": "2020年中国大陆100m分辨率人口密度及年龄分层人口估算网格化数据集",
     "category": "人口社会经济",
@@ -1182,14 +1174,6 @@ const datasets = [
     "format": "GIS数据",
     "description": "2019-2022全球光伏板数据集，适用于遥感生态监测、植被指数、夜间灯光、生态环境和自然资源分析。",
     "link": "https://pan.baidu.com/s/1KonuHen4ze71B1gtI5dYnw?pwd=grsw"
-  },
-  {
-    "id": 151,
-    "title": "jason开发的实时爬取全国最新OSM数据python脚本",
-    "category": "工具文档",
-    "format": "工具 / 脚本",
-    "description": "jason开发的实时爬取全国最新OSM数据python脚本，适用于科研工具、资料整理、政策文档或学术资源查询。",
-    "link": "https://pan.baidu.com/s/1QcPLdkmLbhrQKZ7r6_1Kxw?pwd=grsw"
   },
   {
     "id": 152,

@@ -192,14 +192,6 @@ const datasets = [
     "link": "https://pan.baidu.com/s/1CicpF30Hkhcg0C1ys5WIEw?pwd=grsw"
   },
   {
-    "id": 26,
-    "title": "GIS数据派-数据准备",
-    "category": "其他数据",
-    "format": "GIS数据",
-    "description": "GIS数据派-数据准备，可用于相关GIS空间分析、科研教学和数据整理。",
-    "link": "https://pan.baidu.com/s/1QJLsPcAfU4uPBBEsr6RP_Q?pwd=grsw"
-  },
-  {
     "id": 28,
     "title": "1900-2023全国地震数据",
     "category": "其他数据",

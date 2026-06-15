@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jason.D GeoDataHub</title>
+<title>GISDataHub</title>
 
 <style>
 *{box-sizing:border-box}
@@ -16,58 +16,58 @@ body{
 header{
     background:linear-gradient(135deg,#0f4c81,#1f7fbf);
     color:white;
-    padding:70px 10% 90px;
+    padding:36px 10% 70px;
 }
 nav{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:60px;
+    margin-bottom:55px;
 }
 .logo{
-    font-size:24px;
+    font-size:26px;
     font-weight:700;
 }
 nav a{
     color:white;
     text-decoration:none;
-    margin-left:28px;
+    margin-left:26px;
     font-weight:500;
 }
 .hero h1{
-    font-size:48px;
+    font-size:46px;
     margin:0 0 18px;
 }
 .hero p{
-    font-size:20px;
+    font-size:19px;
     line-height:1.8;
-    max-width:760px;
+    max-width:780px;
 }
 .search-box{
-    margin-top:30px;
-    max-width:600px;
+    margin-top:28px;
+    max-width:620px;
 }
 .search-box input{
     width:100%;
-    padding:16px 20px;
+    padding:15px 20px;
     border:none;
     border-radius:8px;
     font-size:16px;
 }
 .container{
     max-width:1200px;
-    margin:-45px auto 50px;
+    margin:-40px auto 50px;
     padding:0 24px;
 }
 .stats{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
     gap:20px;
-    margin-bottom:40px;
+    margin-bottom:38px;
 }
 .stat{
     background:white;
-    padding:26px;
+    padding:25px;
     border-radius:14px;
     box-shadow:0 8px 24px rgba(0,0,0,.08);
     text-align:center;
@@ -75,14 +75,31 @@ nav a{
 .stat strong{
     display:block;
     color:#0f4c81;
-    font-size:34px;
+    font-size:32px;
 }
 .section-title{
     font-size:28px;
-    margin:45px 0 22px;
+    margin:42px 0 22px;
     color:#0f4c81;
     border-left:6px solid #1f7fbf;
     padding-left:14px;
+}
+.filters{
+    margin-bottom:24px;
+}
+.filters button{
+    border:none;
+    background:white;
+    color:#0f4c81;
+    padding:9px 15px;
+    border-radius:20px;
+    margin:5px;
+    cursor:pointer;
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+}
+.filters button.active{
+    background:#1f7fbf;
+    color:white;
 }
 .grid{
     display:grid;
@@ -94,10 +111,6 @@ nav a{
     border-radius:14px;
     padding:26px;
     box-shadow:0 6px 20px rgba(0,0,0,.08);
-    transition:.25s;
-}
-.card:hover{
-    transform:translateY(-5px);
 }
 .tag{
     display:inline-block;
@@ -109,7 +122,7 @@ nav a{
     margin-bottom:12px;
 }
 .card h3{
-    margin:6px 0 12px;
+    margin:8px 0 12px;
     color:#123;
 }
 .card p{
@@ -119,28 +132,17 @@ nav a{
 .info{
     font-size:14px;
     color:#607d8b;
-    margin:10px 0;
+    margin:8px 0;
 }
 .btn{
     display:inline-block;
-    margin-top:12px;
+    margin-top:14px;
     padding:10px 16px;
     background:#1f7fbf;
     color:white;
     border-radius:7px;
     text-decoration:none;
-}
-.btn.secondary{
-    background:#455a64;
-}
-.feature{
-    background:#ffffff;
-    padding:28px;
-    border-radius:14px;
-    box-shadow:0 6px 18px rgba(0,0,0,.07);
-}
-.feature h3{
-    color:#0f4c81;
+    cursor:pointer;
 }
 .about{
     background:white;
@@ -156,6 +158,39 @@ footer{
     padding:28px;
     margin-top:60px;
 }
+.modal{
+    display:none;
+    position:fixed;
+    z-index:99;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.45);
+}
+.modal-content{
+    background:white;
+    max-width:520px;
+    margin:12% auto;
+    padding:28px;
+    border-radius:14px;
+    box-shadow:0 10px 30px rgba(0,0,0,.2);
+}
+.modal-content h3{
+    color:#0f4c81;
+}
+.close{
+    float:right;
+    font-size:26px;
+    cursor:pointer;
+}
+.copy-box{
+    background:#f1f5f9;
+    padding:12px;
+    border-radius:8px;
+    word-break:break-all;
+    margin:10px 0;
+}
 @media(max-width:700px){
     .hero h1{font-size:34px}
     nav{display:block}
@@ -168,24 +203,23 @@ footer{
 
 <header>
 <nav>
-    <div class="logo">Jason.D GeoDataHub</div>
+    <div class="logo">GISDataHub</div>
     <div>
-        <a href="#datasets">数据集</a>
-        <a href="#wrf">WRF案例</a>
-        <a href="#features">平台特色</a>
+        <a href="#datasets">数据资源</a>
         <a href="#about">关于本站</a>
+        <a href="#contact">联系方式</a>
     </div>
 </nav>
 
 <div class="hero">
-    <h1>开放GIS与城市气候数据共享平台</h1>
+    <h1>城市多源空间数据共享平台</h1>
     <p>
-        面向城市规划、GIS空间分析、遥感解译、WRF/WRF-Chem数值模拟与城市热环境研究，
-        整理常用空间数据、模型案例、教程资源与科研工具。
+        面向城市规划、GIS空间分析、遥感解译、生态环境评价与城市研究，
+        整理常用行政区划、土地利用、DEM、遥感影像、道路建筑等多源空间数据资源。
     </p>
 
     <div class="search-box">
-        <input type="text" placeholder="搜索行政区划、土地利用、DEM、WRF、遥感数据……">
+        <input type="text" id="searchInput" placeholder="搜索行政区划、土地利用、DEM、遥感、道路建筑数据……">
     </div>
 </div>
 </header>
@@ -193,138 +227,116 @@ footer{
 <div class="container">
 
 <section class="stats">
-    <div class="stat"><strong>20+</strong>数据资源</div>
-    <div class="stat"><strong>5</strong>主要分类</div>
-    <div class="stat"><strong>0元</strong>开放共享</div>
-    <div class="stat"><strong>持续更新</strong>科研数据</div>
+    <div class="stat"><strong id="dataCount">0</strong>数据资源</div>
+    <div class="stat"><strong>多源</strong>空间数据</div>
+    <div class="stat"><strong>免费</strong>学习共享</div>
+    <div class="stat"><strong>持续更新</strong>长期维护</div>
 </section>
 
-<h2 class="section-title" id="datasets">数据集资源</h2>
+<h2 class="section-title" id="datasets">数据资源</h2>
 
-<div class="grid">
+<div class="filters" id="filters"></div>
 
-    <div class="card">
-        <span class="tag">行政区划</span>
-        <h3>中国行政区划数据</h3>
-        <p>包含省、市、区县等尺度边界数据，适用于GIS制图、空间统计与城市规划分析。</p>
-        <div class="info">格式：SHP / GeoJSON</div>
-        <div class="info">提取码：待填写</div>
-        <a class="btn" href="#">百度网盘下载</a>
-    </div>
-
-    <div class="card">
-        <span class="tag">土地利用</span>
-        <h3>土地利用 / 土地覆盖数据</h3>
-        <p>包括建设用地、绿地、水体、农田等空间数据，可用于城市热岛、生态空间与用地变化分析。</p>
-        <div class="info">格式：TIF / SHP</div>
-        <div class="info">提取码：待填写</div>
-        <a class="btn" href="#">百度网盘下载</a>
-    </div>
-
-    <div class="card">
-        <span class="tag">地形数据</span>
-        <h3>DEM数字高程模型</h3>
-        <p>整理常用DEM数据入口，可用于地形分析、水文分析、坡度坡向计算与WRF地形预处理。</p>
-        <div class="info">格式：TIF</div>
-        <div class="info">提取码：待填写</div>
-        <a class="btn" href="#">百度网盘下载</a>
-    </div>
-
-    <div class="card">
-        <span class="tag">遥感数据</span>
-        <h3>Landsat / Sentinel 数据资源</h3>
-        <p>整理常用遥感影像下载入口与处理说明，服务城市扩张、地表温度与生态环境监测研究。</p>
-        <div class="info">格式：TIF / SAFE</div>
-        <div class="info">提取码：待填写</div>
-        <a class="btn" href="#">百度网盘下载</a>
-    </div>
-
-    <div class="card">
-        <span class="tag">气象数据</span>
-        <h3>气象观测与再分析数据</h3>
-        <p>包括站点气象资料、ERA5、FNL等常用气象数据入口，适用于WRF模拟与气候分析。</p>
-        <div class="info">格式：CSV / NetCDF / GRIB</div>
-        <div class="info">提取码：待填写</div>
-        <a class="btn" href="#">百度网盘下载</a>
-    </div>
-
-    <div class="card">
-        <span class="tag">城市空间</span>
-        <h3>建筑与道路空间数据</h3>
-        <p>用于城市形态分析、通风廊道识别、建筑密度计算、城市冠层参数构建等研究。</p>
-        <div class="info">格式：SHP / GeoJSON</div>
-        <div class="info">提取码：待填写</div>
-        <a class="btn" href="#">百度网盘下载</a>
-    </div>
-
-</div>
-
-<h2 class="section-title" id="wrf">WRF / WRF-Chem 案例</h2>
-
-<div class="grid">
-
-    <div class="card">
-        <span class="tag">WRF基础</span>
-        <h3>WRF入门案例</h3>
-        <p>包括WPS、namelist、地理数据、运行流程与常见错误说明，适合初学者搭建模拟流程。</p>
-        <a class="btn secondary" href="#">查看案例</a>
-    </div>
-
-    <div class="card">
-        <span class="tag">城市热岛</span>
-        <h3>城市热环境模拟案例</h3>
-        <p>面向城市热岛、蓝绿空间降温、建筑形态调控、热暴露评估等研究方向。</p>
-        <a class="btn secondary" href="#">查看案例</a>
-    </div>
-
-    <div class="card">
-        <span class="tag">空气污染</span>
-        <h3>WRF-Chem PM2.5扩散案例</h3>
-        <p>整理排放清单处理、PM2.5模拟、城市污染岛、边界层结构与扩散过程分析案例。</p>
-        <a class="btn secondary" href="#">查看案例</a>
-    </div>
-
-</div>
-
-<h2 class="section-title" id="features">平台特色</h2>
-
-<div class="grid">
-    <div class="feature">
-        <h3>免费共享</h3>
-        <p>以科研学习和教学交流为目的，整理常用公开数据和处理流程，降低初学者入门门槛。</p>
-    </div>
-
-    <div class="feature">
-        <h3>面向城市规划研究</h3>
-        <p>重点服务城市热岛、空气污染、城市形态、蓝绿空间、通风廊道和气候适应性规划研究。</p>
-    </div>
-
-    <div class="feature">
-        <h3>持续更新</h3>
-        <p>后续将逐步补充数据说明、处理脚本、案例教程、论文复现实验与模型配置文件。</p>
-    </div>
-</div>
+<div class="grid" id="datasetGrid"></div>
 
 <h2 class="section-title" id="about">关于本站</h2>
 
 <div class="about">
     <p>
-        本站由 Jason.D 维护，主要用于整理和共享城市规划、GIS空间分析、遥感数据处理、
-        WRF/WRF-Chem数值模拟与城市气候研究相关的数据资源和学习材料。
+        GISDataHub 是一个面向城市规划、GIS空间分析、遥感解译与城市研究的多源数据分享网站。
+        本站主要整理常用空间数据资源及其获取方式，方便学习者和研究者快速查找、下载和使用。
     </p>
     <p>
-        当前网站仍处于建设阶段，部分数据链接、提取码和说明文档将陆续补充。
+        公众号：创艺喵
     </p>
-    <p>
-        联系方式：请填写你的邮箱 / GitHub主页 / Gitee主页。
+    <p id="contact">
+        邮箱：625474796@qq.com<br>
+        GitHub：<a href="https://github.com/jason07didi/icat07" target="_blank">https://github.com/jason07didi/icat07</a>
     </p>
 </div>
 
 </div>
 
 <footer>
-    © 2026 Jason.D GeoDataHub ｜ Open GIS & Urban Climate Data Platform
+    © 2026 GISDataHub ｜ 城市多源空间数据共享平台
 </footer>
+
+<div class="modal" id="downloadModal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h3 id="modalTitle"></h3>
+        <p>百度网盘链接：</p>
+        <div class="copy-box" id="modalLink"></div>
+        <p>提取码：</p>
+        <div class="copy-box" id="modalCode"></div>
+        <a class="btn" id="modalOpen" href="#" target="_blank">打开百度网盘</a>
+    </div>
+</div>
+
+<script src="data.js"></script>
+
+<script>
+let currentCategory = "全部";
+
+function renderFilters(){
+    const categories = ["全部", ...new Set(datasets.map(d => d.category))];
+    const box = document.getElementById("filters");
+    box.innerHTML = categories.map(c =>
+        `<button class="${c === currentCategory ? 'active' : ''}" onclick="setCategory('${c}')">${c}</button>`
+    ).join("");
+}
+
+function renderDatasets(){
+    const keyword = document.getElementById("searchInput").value.toLowerCase();
+    const grid = document.getElementById("datasetGrid");
+
+    const filtered = datasets.filter(d => {
+        const matchCategory = currentCategory === "全部" || d.category === currentCategory;
+        const matchKeyword =
+            d.title.toLowerCase().includes(keyword) ||
+            d.category.toLowerCase().includes(keyword) ||
+            d.description.toLowerCase().includes(keyword);
+        return matchCategory && matchKeyword;
+    });
+
+    document.getElementById("dataCount").innerText = datasets.length + "+";
+
+    grid.innerHTML = filtered.map((d, index) => `
+        <div class="card">
+            <span class="tag">${d.category}</span>
+            <h3>${d.title}</h3>
+            <p>${d.description}</p>
+            <div class="info">格式：${d.format}</div>
+            <div class="info">提取码：${d.code}</div>
+            <span class="btn" onclick="openModal(${datasets.indexOf(d)})">获取数据</span>
+        </div>
+    `).join("");
+}
+
+function setCategory(category){
+    currentCategory = category;
+    renderFilters();
+    renderDatasets();
+}
+
+function openModal(index){
+    const d = datasets[index];
+    document.getElementById("modalTitle").innerText = d.title;
+    document.getElementById("modalLink").innerText = d.link;
+    document.getElementById("modalCode").innerText = d.code;
+    document.getElementById("modalOpen").href = d.link;
+    document.getElementById("downloadModal").style.display = "block";
+}
+
+function closeModal(){
+    document.getElementById("downloadModal").style.display = "none";
+}
+
+document.getElementById("searchInput").addEventListener("input", renderDatasets);
+
+renderFilters();
+renderDatasets();
+</script>
 
 </body>
 </html>

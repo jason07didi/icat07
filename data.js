@@ -208,14 +208,6 @@ const datasets = [
     "link": "https://pan.baidu.com/s/1QJLsPcAfU4uPBBEsr6RP_Q?pwd=grsw"
   },
   {
-    "id": 27,
-    "title": "jason开发的WRF气象数据FNL下载器",
-    "category": "气候环境",
-    "format": "工具 / 脚本",
-    "description": "jason开发的WRF气象数据FNL下载器，适用于气候变化、环境质量、热暴露、气象时空分析和城市环境研究。",
-    "link": "https://pan.baidu.com/s/1UUIWLNMa8Xevbt_wEq8HCQ?pwd=grsw"
-  },
-  {
     "id": 28,
     "title": "1900-2023全国地震数据",
     "category": "其他数据",
@@ -446,14 +438,6 @@ const datasets = [
     "format": "SHP / GeoJSON / OSM",
     "description": "2025年4月全国铁路线路osm，适用于交通网络、道路可达性、公交地铁服务和城市交通空间分析。",
     "link": "https://pan.baidu.com/s/1NTLLINat6sexYfG0fRRpFg?pwd=grsw"
-  },
-  {
-    "id": 57,
-    "title": "WRF domain绘制工具",
-    "category": "工具文档",
-    "format": "工具 / 脚本",
-    "description": "WRF domain绘制工具，适用于科研工具、资料整理、政策文档或学术资源查询。",
-    "link": "https://pan.baidu.com/s/1ucKwLEl2ArvnVUCMYc7V_w?pwd=grsw"
   },
   {
     "id": 58,

@@ -1,63 +1,187 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <title>Jason.D GIS Data Hub</title>
-
 <style>
-
 body{
-    font-family: Arial;
+    margin:0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background:#f4f7fb;
+    color:#263238;
+}
+.header{
+    background:linear-gradient(120deg,#1f4e79,#2c7fb8);
+    color:white;
+    padding:60px 12%;
+}
+.header h1{
+    font-size:42px;
+    margin:0;
+}
+.header p{
+    font-size:18px;
+    margin-top:12px;
+    line-height:1.8;
+}
+.nav{
+    background:white;
+    padding:16px 12%;
+    box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+.nav a{
+    margin-right:28px;
+    color:#1f4e79;
+    text-decoration:none;
+    font-weight:600;
+}
+.container{
     max-width:1200px;
-    margin:auto;
-    padding:40px;
-    background:#f5f7fa;
+    margin:35px auto;
+    padding:0 25px;
 }
-
-h1{
-    color:#2c3e50;
+.section-title{
+    font-size:26px;
+    color:#1f4e79;
+    border-left:5px solid #2c7fb8;
+    padding-left:12px;
+    margin-top:40px;
 }
-
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:22px;
+}
 .card{
     background:white;
-    padding:20px;
-    margin:20px 0;
-    border-radius:10px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+    border-radius:12px;
+    padding:24px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.08);
 }
-
-a{
-    color:#0066cc;
+.card h3{
+    margin-top:0;
+    color:#1f4e79;
+}
+.card p{
+    line-height:1.7;
+    color:#546e7a;
+}
+.btn{
+    display:inline-block;
+    margin-top:10px;
+    padding:9px 16px;
+    background:#2c7fb8;
+    color:white;
+    border-radius:6px;
     text-decoration:none;
 }
-
+.footer{
+    margin-top:50px;
+    padding:25px;
+    text-align:center;
+    background:#1f4e79;
+    color:white;
+}
 </style>
 </head>
 
 <body>
 
-<h1>Jason.D GIS Data Hub</h1>
-
-<p>
-城市规划 · GIS · WRF · 遥感数据共享平台
-</p>
-
-<div class="card">
-<h2>武汉行政区划数据</h2>
-<p>Shapefile格式</p>
-<a href="#">下载链接</a>
+<div class="header">
+    <h1>Jason.D GIS Data Hub</h1>
+    <p>
+        城市规划 · GIS · 遥感 · WRF/WRF-Chem · 城市气候与环境模拟数据共享平台
+    </p>
 </div>
 
-<div class="card">
-<h2>武汉土地利用数据</h2>
-<p>30m土地利用数据</p>
-<a href="#">下载链接</a>
+<div class="nav">
+    <a href="#data">数据中心</a>
+    <a href="#tutorial">教程资源</a>
+    <a href="#wrf">WRF案例</a>
+    <a href="#about">关于本站</a>
 </div>
 
-<div class="card">
-<h2>WRF案例数据</h2>
-<p>WRF-Chem模拟案例</p>
-<a href="#">下载链接</a>
+<div class="container">
+
+    <h2 class="section-title" id="data">数据中心</h2>
+
+    <div class="grid">
+        <div class="card">
+            <h3>行政区划数据</h3>
+            <p>提供城市、省域、区县尺度行政边界数据，适用于GIS制图、空间统计与城市规划分析。</p>
+            <a class="btn" href="#">百度网盘下载</a>
+        </div>
+
+        <div class="card">
+            <h3>土地利用 / 土地覆盖</h3>
+            <p>包括城市建设用地、绿地、水体、农田等空间数据，可用于城市热环境与生态空间分析。</p>
+            <a class="btn" href="#">百度网盘下载</a>
+        </div>
+
+        <div class="card">
+            <h3>DEM地形数据</h3>
+            <p>整理常用数字高程模型数据，适用于地形分析、水文分析、WRF地形预处理等。</p>
+            <a class="btn" href="#">百度网盘下载</a>
+        </div>
+
+        <div class="card">
+            <h3>遥感影像数据</h3>
+            <p>整理Landsat、Sentinel、夜光遥感等数据资源入口，服务城市扩张与环境监测研究。</p>
+            <a class="btn" href="#">百度网盘下载</a>
+        </div>
+    </div>
+
+    <h2 class="section-title" id="wrf">WRF / WRF-Chem 案例</h2>
+
+    <div class="grid">
+        <div class="card">
+            <h3>WRF基础案例</h3>
+            <p>提供namelist、地理数据预处理、模拟流程说明，适合初学者搭建WRF运行环境。</p>
+            <a class="btn" href="#">查看案例</a>
+        </div>
+
+        <div class="card">
+            <h3>城市热岛模拟</h3>
+            <p>面向城市热环境、城市冠层参数化、蓝绿空间降温效应等研究方向的模拟案例。</p>
+            <a class="btn" href="#">查看案例</a>
+        </div>
+
+        <div class="card">
+            <h3>PM2.5扩散模拟</h3>
+            <p>整理WRF-Chem空气污染扩散模拟相关配置、排放清单处理与结果分析方法。</p>
+            <a class="btn" href="#">查看案例</a>
+        </div>
+    </div>
+
+    <h2 class="section-title" id="tutorial">教程资源</h2>
+
+    <div class="grid">
+        <div class="card">
+            <h3>GIS空间分析教程</h3>
+            <p>ArcGIS、QGIS、空间插值、栅格分析、缓冲区分析、空间叠加分析等基础教程。</p>
+            <a class="btn" href="#">进入教程</a>
+        </div>
+
+        <div class="card">
+            <h3>城市气候模拟教程</h3>
+            <p>包括WRF、WRF-Chem、ENVI-met等模型的安装、数据准备、案例运行与结果可视化。</p>
+            <a class="btn" href="#">进入教程</a>
+        </div>
+    </div>
+
+    <h2 class="section-title" id="about">关于本站</h2>
+
+    <div class="card">
+        <p>
+            本站由 Jason.D 维护，主要面向城市规划、城市气候、GIS空间分析、遥感与数值模拟方向的学习者和研究者，
+            用于整理和共享常用空间数据、模型案例、分析方法与科研资源。
+        </p>
+    </div>
+
+</div>
+
+<div class="footer">
+    © 2026 Jason.D GIS Data Hub
 </div>
 
 </body>

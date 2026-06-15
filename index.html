@@ -69,25 +69,6 @@ a{text-decoration:none;color:inherit}
     max-width:680px;
 }
 
-.btn{
-    display:inline-block;
-    padding:14px 28px;
-    background:#2447b8;
-    color:white;
-    border-radius:12px;
-    font-weight:700;
-    margin-right:12px;
-    transition:.25s;
-}
-.btn:hover{
-    transform:translateY(-2px);
-}
-.btn.outline{
-    background:white;
-    color:#2447b8;
-    border:2px solid #2447b8;
-}
-
 .hero-buttons{
     margin-top:30px;
 }
@@ -188,29 +169,6 @@ a{text-decoration:none;color:inherit}
     display:block;
     height:100%;
     background:#2447b8;
-}
-
-
-.category-pagination{
-    text-align:center;
-    margin-top:28px;
-}
-.category-pagination button{
-    border:none;
-    background:white;
-    padding:10px 14px;
-    margin:4px;
-    border-radius:9px;
-    cursor:pointer;
-    box-shadow:0 3px 10px rgba(15,23,42,.09);
-}
-.category-pagination button.active{
-    background:#2447b8;
-    color:white;
-}
-.category-pagination button:disabled{
-    opacity:.45;
-    cursor:not-allowed;
 }
 
 .categories{
@@ -412,45 +370,33 @@ a{text-decoration:none;color:inherit}
 </div>
 
 <section class="hero" id="home">
-
-    <div class="hero-left">
-        <h1>地理大数据 <span>下载平台</span></h1>
-
+    <div>
+        <h1>城市多源空间数据<br><span>共享平台</span></h1>
         <p>
-            汇集行政区划、土地利用、城市空间、人口社会经济、交通网络、气候环境、
-            遥感生态、水文海洋等多源空间数据，助力GIS分析、城市规划与科学研究。
+            汇集行政区划、土地利用、城市空间、交通网络、人口社会经济、气候环境、
+            水文海洋、遥感生态、OSM基础数据等多源数据资源，服务GIS分析、城市规划与空间研究。
         </p>
-
-        <div class="hero-buttons">
-            <a class="btn" href="#download">⬇ 下载中心</a>
-            <a class="btn outline" href="#categories">📚 数据分类</a>
+        <div class="hero-actions">
+            <a class="btn" href="#download">进入下载中心</a>
+            <a class="btn outline" href="#categories">查看数据分类</a>
         </div>
 
-        <div class="hero-icons">
-            <div class="hero-icon">
-                <span class="icon">🗺️</span>
-                <strong>188+</strong>
-                <span>数据资源</span>
-            </div>
-
-            <div class="hero-icon">
-                <span class="icon">🏙️</span>
-                <strong>全国</strong>
-                <span>覆盖区域</span>
-            </div>
-
-            <div class="hero-icon">
-                <span class="icon">🔄</span>
-                <strong>持续</strong>
-                <span>更新维护</span>
-            </div>
+        <div class="hero-stats">
+            <div class="hero-stat"><strong id="heroTotal">0</strong>数据资源</div>
+            <div class="hero-stat"><strong id="heroCategory">0</strong>数据类别</div>
+            <div class="hero-stat"><strong id="heroFormat">0</strong>数据格式</div>
         </div>
     </div>
 
-    <div class="hero-image">
-        <img src="images/hero.jpg" alt="GISDataHub Banner">
+    <div class="hero-card">
+        <h2>平台说明</h2>
+        <p>本站主要整理城市多源空间数据资源。页面仅展示数据简介，点击“获取数据”后弹出完整百度网盘链接。</p>
+        <p>
+            维护者：Jason.D<br>
+            公众号：创艺喵<br>
+            邮箱：625474796@qq.com
+        </p>
     </div>
-
 </section>
 
 <section class="section">
@@ -477,7 +423,6 @@ a{text-decoration:none;color:inherit}
     <h2 class="section-title">数据分类</h2>
     <p class="section-subtitle">按数据主题组织资源，便于快速检索和下载</p>
     <div class="categories" id="categoryCards"></div>
-    <div class="category-pagination" id="categoryPagination"></div>
 </section>
 
 <section class="section" id="download">
@@ -533,12 +478,11 @@ a{text-decoration:none;color:inherit}
         <span class="close" onclick="closeModal()">&times;</span>
         <h2 id="modalTitle"></h2>
         <p id="modalDescription"></p>
-        <p class="small-note" id="modalMeta"></p>
         <p>完整百度网盘链接：</p>
         <div class="copy-box" id="modalLink"></div>
         <a class="btn" id="modalOpen" href="#" target="_blank">打开百度网盘</a>
         <button class="btn outline" onclick="copyLink()">复制链接</button>
-        <p class="small-note">提示：链接已包含数据链接，若链接失效请联系维护者更新。</p>
+        <p class="small-note">提示：链接已包含提取码，若链接失效请联系维护者更新。</p>
     </div>
 </div>
 
@@ -550,6 +494,16 @@ let currentPage = 1;
 let currentCategoryPage = 1;
 const pageSize = 10;
 const categoryPageSize = 8;
+
+// 兼容 data.js：只要 data.js 里写的是 const datasets = [...]，这里就能读取
+function getDatasetSource(){
+    try{
+        if (typeof datasets !== "undefined" && Array.isArray(datasets)) {
+            return datasets;
+        }
+    }catch(e){}
+    return [];
+}
 
 const categoryIcons = {
     "行政区划":"🗺️",
@@ -568,26 +522,68 @@ const categoryIcons = {
     "其他数据":"📦"
 };
 
+const categoryDescriptions = {
+    "行政区划":"行政边界、标准地图、省市县区划及全球边界数据。",
+    "土地利用":"土地利用、土地覆盖、公园绿地、耕地、不透水面等数据。",
+    "城市空间":"建筑、建成区、LCZ、AOI、街区、城市形态与功能空间数据。",
+    "交通数据":"铁路、公路、路网、公交、地铁、站点与交通设施数据。",
+    "人口社会经济":"人口密度、就业、GDP、统计年鉴、教育、迁徙等社会经济数据。",
+    "气候环境":"气温、降水、风速、空气质量、PM2.5、热浪、碳排放等数据。",
+    "水文海洋":"河流湖泊、水系、水库、水文站、海洋、海岸线与水质数据。",
+    "地形数据":"DEM、高程、坡度、地形因子等基础地形数据。",
+    "土壤数据":"土壤类型、土壤质地、土壤侵蚀、HWSD等土壤资源数据。",
+    "遥感生态":"NDVI、EVI、FVC、夜间灯光、植被、森林、生态和自然资源数据。",
+    "POI与活动数据":"POI、景点、签到、热力图、旅游与城市活动数据。",
+    "工具文档":"工具脚本、下载器、政策文档、学术资源与辅助材料。",
+    "OSM基础数据":"OSM道路、建筑、用地、POI等开放街图基础数据。",
+    "其他数据":"其他暂未归类但可用于GIS与空间研究的数据资源。"
+};
+
 function unique(arr){
-    return [...new Set(arr.filter(Boolean))];
+    return [...new Set(arr.filter(v => v !== undefined && v !== null && String(v).trim() !== ""))];
+}
+
+function safeText(v, fallback="待补充"){
+    if(v === undefined || v === null || String(v).trim() === "") return fallback;
+    return String(v).trim();
+}
+
+function getData(){
+    return getDatasetSource().map((d, i) => ({
+        id: d.id || i + 1,
+        title: safeText(d.title, "未命名数据"),
+        category: safeText(d.category, "其他数据"),
+        format: safeText(d.format, "GIS数据"),
+        description: safeText(d.description, safeText(d.title, "暂无简介")),
+        link: safeText(d.link, "#"),
+        size: d.size || "",
+        year: d.year || d.time || ""
+    }));
 }
 
 function initStats(){
-    const categories = unique(datasets.map(d=>d.category));
-    const formats = unique(datasets.map(d=>d.format));
+    const data = getData();
+    const categories = unique(data.map(d=>d.category));
+    const formats = unique(data.map(d=>d.format));
 
-    document.getElementById("heroTotal").innerText = datasets.length + "+";
+    document.getElementById("heroTotal").innerText = data.length + "+";
     document.getElementById("heroCategory").innerText = categories.length;
     document.getElementById("heroFormat").innerText = formats.length;
 
-    document.getElementById("mTotal").innerText = datasets.length + "+";
+    document.getElementById("mTotal").innerText = data.length + "+";
     document.getElementById("mCategory").innerText = categories.length;
     document.getElementById("mFormat").innerText = formats.length;
     document.getElementById("mVisit").innerHTML = '<span id="busuanzi_value_site_pv"></span>';
 
-    const maxCount = Math.max(...categories.map(c=>datasets.filter(d=>d.category===c).length));
+    if(data.length === 0){
+        document.getElementById("categoryStats").innerHTML =
+            '<p style="color:#64748b;">未读取到 data.js 数据。请确认仓库根目录存在 data.js，且文件内容以 <code>const datasets = [</code> 开头。</p>';
+        return;
+    }
+
+    const maxCount = Math.max(...categories.map(c=>data.filter(d=>d.category===c).length));
     const stats = categories.map(c=>{
-        const count = datasets.filter(d=>d.category===c).length;
+        const count = data.filter(d=>d.category===c).length;
         const width = Math.round(count / maxCount * 100);
         return `
         <div class="category-stat">
@@ -599,31 +595,44 @@ function initStats(){
 }
 
 function initFilters(){
-    fillSelect("categoryFilter","全部类别",unique(datasets.map(d=>d.category)));
-    fillSelect("formatFilter","全部格式",unique(datasets.map(d=>d.format)));
+    const data = getData();
+    fillSelect("categoryFilter","全部类别",unique(data.map(d=>d.category)));
+    fillSelect("formatFilter","全部格式",unique(data.map(d=>d.format)));
 }
 
 function fillSelect(id, label, values){
     const el = document.getElementById(id);
-    el.innerHTML = `<option value="">${label}</option>` + values.map(v=>`<option value="${v}">${v}</option>`).join("");
+    el.innerHTML = `<option value="">${label}</option>` +
+        values.map(v=>`<option value="${v}">${v}</option>`).join("");
 }
 
 function renderCategoryCards(){
-    const cats = unique(datasets.map(d=>d.category));
+    const data = getData();
+    const cats = unique(data.map(d=>d.category));
     const totalPages = Math.ceil(cats.length / categoryPageSize) || 1;
     if(currentCategoryPage > totalPages) currentCategoryPage = 1;
 
     const start = (currentCategoryPage - 1) * categoryPageSize;
     const pageCats = cats.slice(start, start + categoryPageSize);
 
+    if(data.length === 0){
+        document.getElementById("categoryCards").innerHTML =
+            '<div class="category-card"><div class="category-icon">⚠️</div><h3>未读取到数据</h3><p>请检查 data.js 是否已经正确上传到仓库根目录。</p></div>';
+        const cp = document.getElementById("categoryPagination");
+        if(cp) cp.innerHTML = "";
+        return;
+    }
+
     document.getElementById("categoryCards").innerHTML = pageCats.map(c=>{
-        const count = datasets.filter(d=>d.category===c).length;
+        const count = data.filter(d=>d.category===c).length;
         const icon = categoryIcons[c] || "📦";
+        const desc = categoryDescriptions[c] || "相关GIS数据资源。";
         return `
         <div class="category-card">
             <div class="category-icon">${icon}</div>
             <h3>${c}</h3>
-            <p>共收录 ${count} 个相关数据集。</p>
+            <p>${desc}</p>
+            <p><strong>${count}</strong> 个数据集</p>
             <a class="btn" href="#download" onclick="setCategory('${c}')">查看数据</a>
         </div>`;
     }).join("");
@@ -637,17 +646,15 @@ function renderCategoryPagination(totalPages){
 
     let html = "";
     html += `<button onclick="goCategoryPage(${currentCategoryPage-1})" ${currentCategoryPage===1?'disabled':''}>上一页</button>`;
-
     for(let i=1;i<=totalPages;i++){
         html += `<button class="${i===currentCategoryPage?'active':''}" onclick="goCategoryPage(${i})">${i}</button>`;
     }
-
     html += `<button onclick="goCategoryPage(${currentCategoryPage+1})" ${currentCategoryPage===totalPages?'disabled':''}>下一页</button>`;
     box.innerHTML = html;
 }
 
 function goCategoryPage(p){
-    const cats = unique(datasets.map(d=>d.category));
+    const cats = unique(getData().map(d=>d.category));
     const totalPages = Math.ceil(cats.length / categoryPageSize) || 1;
     if(p < 1 || p > totalPages) return;
     currentCategoryPage = p;
@@ -655,12 +662,13 @@ function goCategoryPage(p){
 }
 
 function getFiltered(){
+    const data = getData();
     const keyword = document.getElementById("searchInput").value.toLowerCase().trim();
     const c = document.getElementById("categoryFilter").value;
     const f = document.getElementById("formatFilter").value;
     const sort = document.getElementById("sortFilter").value;
 
-    let data = datasets.filter(d=>{
+    let result = data.filter(d=>{
         const text = `${d.title} ${d.category} ${d.format} ${d.description}`.toLowerCase();
         return (!keyword || text.includes(keyword)) &&
                (!c || d.category===c) &&
@@ -668,12 +676,12 @@ function getFiltered(){
     });
 
     if(sort === "title"){
-        data.sort((a,b)=>a.title.localeCompare(b.title, "zh-CN"));
+        result.sort((a,b)=>a.title.localeCompare(b.title, "zh-CN"));
     }
     if(sort === "category"){
-        data.sort((a,b)=>a.category.localeCompare(b.category, "zh-CN"));
+        result.sort((a,b)=>a.category.localeCompare(b.category, "zh-CN"));
     }
-    return data;
+    return result;
 }
 
 function renderDatasets(){
@@ -688,6 +696,19 @@ function renderDatasets(){
     document.getElementById("resultInfo").innerText =
         `共找到 ${data.length} 条数据，当前第 ${currentPage} / ${totalPages} 页`;
 
+    if(getData().length === 0){
+        list.innerHTML = `
+        <div class="dataset-item">
+            <div>
+                <span class="tag">提示</span>
+                <h3>未读取到 data.js</h3>
+                <p>请确认 data.js 与 index.html 在同一级目录，并且文件内容为 const datasets = [...]。</p>
+            </div>
+        </div>`;
+        renderPagination(1);
+        return;
+    }
+
     list.innerHTML = pageData.map(d=>`
         <div class="dataset-item">
             <div>
@@ -697,9 +718,9 @@ function renderDatasets(){
                 <p>${d.description}</p>
                 <div class="meta">
                     <span>🏷️ ${d.category}</span>
-                    <span>📄 ${d.format || 'GIS数据'}</span>
-                    <span>📦 文件大小：${d.size || '待补充'}</span>
-                    <span>📅 数据时间：${d.year || d.time || '待补充'}</span>
+                    <span>📄 ${d.format}</span>
+                    <span>📦 文件大小：${safeText(d.size)}</span>
+                    <span>📅 数据时间：${safeText(d.year)}</span>
                 </div>
             </div>
             <div>
@@ -714,7 +735,6 @@ function renderDatasets(){
 function renderPagination(totalPages){
     const box = document.getElementById("pagination");
     let html = "";
-
     html += `<button onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>上一页</button>`;
 
     const start = Math.max(1, currentPage - 3);
@@ -735,7 +755,6 @@ function renderPagination(totalPages){
     }
 
     html += `<button onclick="goPage(${currentPage+1})" ${currentPage===totalPages?'disabled':''}>下一页</button>`;
-
     box.innerHTML = html;
 }
 
@@ -754,10 +773,12 @@ function setCategory(c){
 }
 
 function openModal(id){
-    const d = datasets.find(x=>x.id===id);
+    const d = getData().find(x=>x.id===id);
+    if(!d) return;
     document.getElementById("modalTitle").innerText = d.title;
     document.getElementById("modalDescription").innerText = d.description;
-    document.getElementById("modalMeta").innerText = `文件大小：${d.size || '待补充'} ｜ 数据时间：${d.year || d.time || '待补充'} ｜ 格式：${d.format || 'GIS数据'}`;
+    document.getElementById("modalMeta").innerText =
+        `文件大小：${safeText(d.size)} ｜ 数据时间：${safeText(d.year)} ｜ 格式：${safeText(d.format, "GIS数据")}`;
     document.getElementById("modalLink").innerText = d.link;
     document.getElementById("modalOpen").href = d.link;
     document.getElementById("downloadModal").style.display = "block";
@@ -773,26 +794,30 @@ function copyLink(){
     alert("链接已复制");
 }
 
-["searchInput","categoryFilter","formatFilter","sortFilter"].forEach(id=>{
-    document.getElementById(id).addEventListener("input",()=>{
-        currentPage = 1;
-        renderDatasets();
+function initPage(){
+    initStats();
+    initFilters();
+    renderCategoryCards();
+    renderDatasets();
+
+    ["searchInput","categoryFilter","formatFilter","sortFilter"].forEach(id=>{
+        document.getElementById(id).addEventListener("input",()=>{
+            currentPage = 1;
+            renderDatasets();
+        });
+        document.getElementById(id).addEventListener("change",()=>{
+            currentPage = 1;
+            renderDatasets();
+        });
     });
-    document.getElementById(id).addEventListener("change",()=>{
-        currentPage = 1;
-        renderDatasets();
-    });
-});
+}
 
 window.onclick = function(e){
     const modal = document.getElementById("downloadModal");
     if(e.target === modal) closeModal();
 }
 
-initStats();
-initFilters();
-renderCategoryCards();
-renderDatasets();
+initPage();
 </script>
 
 </body>
